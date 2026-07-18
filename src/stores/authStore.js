@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { toast } from 'react-hot-toast';
-import { login as loginRequest, register as registerRequest } from '../shared/api';
+import { login as loginRequest, register as registerRequest, updateProfile as updateProfileRequest } from '../shared/api';
 
 export const useAuthStore = create(
   persist(
@@ -34,10 +34,10 @@ export const useAuthStore = create(
         }
       },
 
-      register: async ({ name, surname, email, password, phone }) => {
+      register: async ({ name, surname, username, email, password, phone }) => {
         set({ loading: true, error: null });
         try {
-          const { data } = await registerRequest({ name, surname, email, password, phone });
+          const { data } = await registerRequest({ name, surname, username, email, password, phone });
 
           toast.success(data.message || '¡Cuenta creada con éxito!');
           set({ loading: false });
@@ -58,6 +58,27 @@ export const useAuthStore = create(
           error: null,
         });
         toast.success('Sesión cerrada');
+      },
+
+      updateProfile: async (id, data) => {
+        set({ loading: true, error: null });
+        try {
+          const res = await updateProfileRequest(id, data);
+          // Assuming the backend returns { user: ... } or we can just merge the local state
+          const updatedUser = res.data?.user || res.data?.data || data;
+          
+          set((state) => ({
+            user: { ...state.user, ...updatedUser },
+            loading: false
+          }));
+          toast.success('Perfil actualizado correctamente');
+          return { success: true };
+        } catch (err) {
+          const errorMsg = err.response?.data?.message || 'Error al actualizar el perfil';
+          set({ loading: false, error: errorMsg });
+          toast.error(errorMsg);
+          return { success: false, error: errorMsg };
+        }
       },
     }),
     { name: 'client-auth-store' }

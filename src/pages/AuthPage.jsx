@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { LoginForm } from "./components/LoginForm";
 import { RegisterForm } from "./components/RegisterForm";
+import fondoImg from "../assets/img/fondo.png";
+import logoImg from "../assets/img/Logo_Restaurante.png";
 
 export const AuthPage = () => {
     const [view, setView] = useState("login");
@@ -9,7 +11,7 @@ export const AuthPage = () => {
         <div 
             className="min-h-screen flex items-center justify-center p-4 relative"
             style={{ 
-                backgroundImage: "url('/src/assets/img/fondo.png')",
+                backgroundImage: `url(${fondoImg})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundAttachment: 'fixed'
@@ -23,7 +25,7 @@ export const AuthPage = () => {
                 {/* LOGO Y BIENVENIDA */}
                 <div className="flex flex-col items-center mb-8">
                     <img
-                        src="/src/assets/img/Logo_Restaurante.png"
+                        src={logoImg}
                         alt="UrbanCentral Logo"
                         className="h-20 w-auto mb-4 drop-shadow-md"
                     />

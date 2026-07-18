@@ -4,6 +4,7 @@ import { Navbar } from '../shared/components/Navbar';
 import { useAuthStore } from '../stores/authStore';
 import { useClientStore } from '../stores/clientStore';
 import { CreateReservationModal } from './components/CreateReservationModal';
+import defaultLogo from '../assets/img/Logo_Restaurante.png';
 
 export const ExplorePage = () => {
   const { restaurants, fetchRestaurants, search, loading } = useClientStore();
@@ -95,7 +96,7 @@ export const ExplorePage = () => {
                 {/* Image Placeholder or Actual Image */}
                 <div className="relative h-48 w-full overflow-hidden bg-gray-200">
                   <img 
-                    src={restaurant.image || '/Logo_Restaurante.png'} 
+                    src={restaurant.image || defaultLogo} 
                     alt={restaurant.name} 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />                  

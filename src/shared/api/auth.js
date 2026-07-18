@@ -11,3 +11,7 @@ export const register = async (data) => {
 export const getMyProfile = async () => {
   return await axiosClient.get('/auth/me');
 };
+
+export const updateProfile = async (id, data) => {
+  return await axiosClient.put(`/users/update/${id}`, data);
+};

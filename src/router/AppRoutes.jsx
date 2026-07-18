@@ -4,6 +4,7 @@ import { ExplorePage } from '../pages/ExplorePage';
 import { ReservationsPage } from '../pages/ReservationsPage';
 import { MenuPage } from '../pages/MenuPage';
 import { EventsPage } from '../pages/EventsPage';
+import { ProfilePage } from '../pages/ProfilePage';
 import { ProtectedRoute } from '../shared/components/ProtectedRoute';
 import { PublicRoute } from '../shared/components/PublicRoute';
 
@@ -19,6 +20,7 @@ export const AppRoutes = () => {
       
       <Route element={<ProtectedRoute />}>
         <Route path="/reservations" element={<ReservationsPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Route>
     </Routes>
   );

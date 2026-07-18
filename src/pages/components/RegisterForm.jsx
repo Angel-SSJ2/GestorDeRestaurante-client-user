@@ -42,6 +42,16 @@ export const RegisterForm = ({ onBack }) => {
             </div>
 
             <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre de Usuario</label>
+                <input
+                    type="text"
+                    placeholder="juanperez"
+                    className={`w-full px-4 py-2.5 text-sm bg-gray-50 border ${errors.username ? 'border-red-500' : 'border-gray-200'} rounded-xl focus:ring-2 focus:ring-[--main-blue] outline-none transition-all`}
+                    {...register("username", { required: "Campo requerido" })}
+                />
+            </div>
+
+            <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
                 <input
                     type="email"
