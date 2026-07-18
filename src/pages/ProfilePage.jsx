@@ -9,7 +9,9 @@ export const ProfilePage = () => {
     name: user?.name || '',
     surname: user?.surname || '',
     email: user?.email || '',
-    phone: user?.phone || ''
+    phone: user?.phone || '',
+    currentPassword: '',
+    newPassword: ''
   });
 
   const handleChange = (e) => {
@@ -18,9 +20,16 @@ export const ProfilePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await updateProfile(user?.id || user?._id, formData);
+    const dataToSend = { ...formData };
+    if (!dataToSend.newPassword) {
+      delete dataToSend.newPassword;
+      delete dataToSend.currentPassword;
+    }
+
+    const res = await updateProfile(user?.id || user?._id, dataToSend);
     if (res.success) {
       setIsEditing(false);
+      setFormData(prev => ({ ...prev, currentPassword: '', newPassword: '' }));
     }
   };
 
@@ -97,6 +106,36 @@ export const ProfilePage = () => {
             </div>
 
             {isEditing && (
+              <div className="pt-6 border-t mt-6">
+                <h3 className="text-lg font-bold text-gray-800 mb-4">Cambiar Contraseña (Opcional)</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-semibold text-gray-700">Contraseña Actual</label>
+                    <input
+                      type="password"
+                      name="currentPassword"
+                      value={formData.currentPassword}
+                      onChange={handleChange}
+                      placeholder="Requerido si cambias contraseña"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[#1f75fe] focus:border-transparent transition-all outline-none"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-semibold text-gray-700">Nueva Contraseña</label>
+                    <input
+                      type="password"
+                      name="newPassword"
+                      value={formData.newPassword}
+                      onChange={handleChange}
+                      placeholder="Deja en blanco para no cambiar"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[#1f75fe] focus:border-transparent transition-all outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {isEditing && (
               <div className="flex gap-4 pt-6 border-t">
                 <button
                   type="button"
@@ -106,7 +145,9 @@ export const ProfilePage = () => {
                       name: user?.name || '',
                       surname: user?.surname || '',
                       email: user?.email || '',
-                      phone: user?.phone || ''
+                      phone: user?.phone || '',
+                      currentPassword: '',
+                      newPassword: ''
                     });
                   }}
                   className="flex-1 py-3 px-6 rounded-xl font-semibold border-2 border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
